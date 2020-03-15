@@ -18,7 +18,8 @@ class AmazonProductSpider(scrapy.Spider):
 
         # follow pagination link
         next_page = response.css('div.a-text-center ul.a-pagination li.a-last a::attr(href)').get()
-        if next_page and next_page[-1] != '3':
+        check_page = int(next_page.split('sr_pg_')[-1])
+        if next_page and check_page <= 3:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
 
