@@ -17,7 +17,6 @@ class AmazonProductSpider(scrapy.Spider):
             yield response.follow(item, callback=self.parse_details)
 
         # follow pagination link
-        # first_page = response.css("span.pagnRA a::attr(href)").get()
         next_page = response.css('div.a-text-center ul.a-pagination li.a-last a::attr(href)').get()
         if next_page is not None and next_page[-1] != '3':
             next_page = response.urljoin(next_page)
@@ -35,6 +34,5 @@ class AmazonProductSpider(scrapy.Spider):
             product['price'] = 'null'
         else:
             product['price'] = float(product['price'].strip('$'))
-            print(product['price'])
 
         return product
